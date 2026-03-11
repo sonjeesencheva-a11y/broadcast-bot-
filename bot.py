@@ -4,18 +4,14 @@ from telegram import Update, Document
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-OWNER_ID = int(os.getenv("OWNER_ID", "0"))
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Bot e aktiven.\n"
-        "Kako owner, prati mi .txt fajl so chat IDs za broadcast."
+        "Prati .txt fajl so chat IDs za broadcast."
     )
 
 async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id != OWNER_ID:
-        await update.message.reply_text("Samo owner moze da praka fajl so IDs.")
-        return
 
     doc: Document = update.message.document
     if not doc.file_name.endswith(".txt"):
